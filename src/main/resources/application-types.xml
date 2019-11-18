@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="inputFormat" format="json">
+      <types:shape format="weave" example="examples/Requet_test.json"><![CDATA[%dw 2.0
+type inputFormat = {|
+  Name: String, 
+  Type: String, 
+  BillingStreet: String, 
+  BillingCity: String, 
+  BillingState: String, 
+  Phone: String, 
+  AccountNumber: String
+|} {"MetadataFormat": "json",
+"example": "{\"Name\":\"Jon\",\"Type\":\"Temp\",\"BillingStreet\":\"BillingStreet1\",\"BillingCity\":\"BillingCity1\",\"BillingState\":\"BillingState1\",\"Phone\":\"9876543210\",\"AccountNumber\":\"1234567\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="outputFormat" format="json">
+      <types:shape format="weave" example="examples/Response.json"><![CDATA[%dw 2.0
+type outputFormat = Array<{|
+  Id: String, 
+  message: String, 
+  Status: String
+|}> {"MetadataFormat": "json",
+"example": "[{\"Id\":\"12345\",\"message\":\"Successful\",\"Status\":\"Thanks\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="pf" format="xml">
+      <types:example format="xml" element="{http://ws.fsa.protocol.segurnet.criticalsoftware.com/}processaMensagemResponse" location="examples/pf.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#bb544a32-6ad4-49d0-82e1-df81032957a5">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="inputFormat"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="outputFormat"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
