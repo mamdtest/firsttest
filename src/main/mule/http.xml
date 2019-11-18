@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7db6025c-218f-4fb6-9568-4045231e2150" >
+		<http:listener-connection host="0.0.0.0" port="12345" />
+	</http:listener-config>
+	<flow name="httpFlow" doc:id="4584e173-6eaf-43c2-b3ef-594fffd18171" >
+		<http:listener doc:name="Listener" doc:id="94a074fc-3c51-49ff-9ba7-5dad738bec39" config-ref="HTTP_Listener_config" path="/abc"/>
+		<ee:transform doc:name="Transform Message" doc:id="bb544a32-6ad4-49d0-82e1-df81032957a5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	status: "success"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
